@@ -57,13 +57,20 @@ const LEDDigit = ({ value }) => {
 
 const LuxurySlotMachine = () => {
   // Create audio elements
-  const spinSound = new Audio("/sounds/spin.mp3");
+  const createAudio = (src) => {
+    const audio = new Audio(src);
+    audio.onerror = (e) => {
+      console.error(`Error loading audio file ${src}:`, e);
+    };
+    return audio;
+  };
+  const spinSound = createAudio("/sounds/spin.mp3");
 
   spinSound.loop = true; // The spin sound will repeat
+  const winSound = createAudio("/sounds/win.mp3");
+  const jackpotSound = createAudio("/sounds/jackpot.mp3");
+  const buttonSound = createAudio("/sounds/button.mp3");
 
-  const winSound = new Audio("/sounds/win.mp3");
-  const jackpotSound = new Audio("/sounds/jackpot.mp3");
-  const buttonSound = new Audio("/sounds/button.mp3");
   // States remain the same...
   const [numbers, setNumbers] = useState([0, 0, 0]);
   const [spinning, setSpinning] = useState(false);
